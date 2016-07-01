@@ -251,7 +251,7 @@ tagsInput.directive('tagsInput', function($timeout, $document, $window, $q, tags
             };
         },
         link: function(scope, element, attrs, ngModelCtrl) {
-            var hotkeys = [KEYS.enter, KEYS.comma, KEYS.space, KEYS.backspace, KEYS.delete, KEYS.left, KEYS.right],
+            var hotkeys = [KEYS.enter, KEYS.comma, KEYS.space, KEYS.backspace, KEYS.delete],
                 tagList = scope.tagList,
                 events = scope.events,
                 options = scope.options,
@@ -424,7 +424,7 @@ tagsInput.directive('tagsInput', function($timeout, $document, $window, $q, tags
                     shouldAdd = !options.addFromAutocompleteOnly && addKeys[key];
                     shouldRemove = (key === KEYS.backspace || key === KEYS.delete) && tagList.selected;
                     shouldEditLastTag = key === KEYS.backspace && scope.newTag.text().length === 0 && options.enableEditingLastTag;
-                    shouldSelect = (key === KEYS.backspace || key === KEYS.left || key === KEYS.right) && scope.newTag.text().length === 0 && !options.enableEditingLastTag;
+                    shouldSelect = key === KEYS.backspace && scope.newTag.text().length === 0 && !options.enableEditingLastTag;
 
                     if (shouldAdd) {
                         tagList.addText(scope.newTag.text());
@@ -441,11 +441,8 @@ tagsInput.directive('tagsInput', function($timeout, $document, $window, $q, tags
                         tagList.removeSelected();
                     }
                     else if (shouldSelect) {
-                        if (key === KEYS.left || key === KEYS.backspace) {
+                        if (key === KEYS.backspace) {
                             tagList.selectPrior();
-                        }
-                        else if (key === KEYS.right) {
-                            tagList.selectNext();
                         }
                     }
 
